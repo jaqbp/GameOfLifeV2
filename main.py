@@ -1,6 +1,7 @@
 import pygame
 import sys
 import copy
+import random
 
 
 class GameOfLife:
@@ -13,7 +14,7 @@ class GameOfLife:
         self.GRID_HEIGHT = self.HEIGHT // self.GRID_SIZE
         self.GRID_COLOR = (255, 255, 255)
         self.BG_COLOR = (0, 0, 0)
-        self.CELL_COLOR = (255, 0, 0)
+        self.CELL_COLOR = (34, 139, 34)
         self.FPS = 30
 
         self.screen = pygame.display.set_mode((self.WIDTH, self.HEIGHT))
@@ -77,6 +78,17 @@ class GameOfLife:
                         self.FPS = 30
                     else:
                         self.FPS = 5
+
+                if self.isPaused:
+                    if event.type == pygame.KEYDOWN and event.key == pygame.K_r:
+                        for x in range(self.GRID_HEIGHT):
+                            for y in range(self.GRID_WIDTH):
+                                self.grid[x][y] = int(random.uniform(0, 2))
+                    if event.type == pygame.KEYDOWN and event.key == pygame.K_c:
+                        for x in range(self.GRID_HEIGHT):
+                            for y in range(self.GRID_WIDTH):
+                                self.grid[x][y] = 0
+
                 if not self.isPaused:
                     if event.type == pygame.KEYDOWN and event.key == pygame.K_LEFT:
                         if self.FPS > 1:
