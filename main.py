@@ -2,104 +2,116 @@ import pygame
 import sys
 import copy
 
-pygame.init()
 
-WIDTH, HEIGHT = 400, 400
-GRID_SIZE = 20
-GRID_WIDTH = WIDTH // GRID_SIZE
-GRID_HEIGHT = HEIGHT // GRID_SIZE
-GRID_COLOR = (255, 255, 255)
-BG_COLOR = (0, 0, 0)
-CELL_COLOR = (255, 0, 0)
-FPS = 30
+class GameOfLife:
+    def __init__(self):
+        pygame.init()
 
-screen = pygame.display.set_mode((WIDTH, HEIGHT))
-pygame.display.set_caption("Game of Life")
+        self.WIDTH, self.HEIGHT = 400, 400
+        self.GRID_SIZE = 20
+        self.GRID_WIDTH = self.WIDTH // self.GRID_SIZE
+        self.GRID_HEIGHT = self.HEIGHT // self.GRID_SIZE
+        self.GRID_COLOR = (255, 255, 255)
+        self.BG_COLOR = (0, 0, 0)
+        self.CELL_COLOR = (255, 0, 0)
+        self.FPS = 30
 
-grid = [[0 for _ in range(GRID_WIDTH)] for _ in range(GRID_HEIGHT)]
+        self.screen = pygame.display.set_mode((self.WIDTH, self.HEIGHT))
+        pygame.display.set_caption("Game of Life")
 
+        self.grid = [
+            [0 for _ in range(self.GRID_WIDTH)] for _ in range(self.GRID_HEIGHT)
+        ]
 
-def draw_grid():
-    for x in range(0, WIDTH, GRID_SIZE):
-        pygame.draw.line(screen, GRID_COLOR, (x, 0), (x, HEIGHT))
-    for y in range(0, HEIGHT, GRID_SIZE):
-        pygame.draw.line(screen, GRID_COLOR, (0, y), (WIDTH, y))
+        self.clock = pygame.time.Clock()
+        self.running = True
+        self.isPaused = True
 
+    def draw_grid(self):
+        for x in range(0, self.WIDTH, self.GRID_SIZE):
+            pygame.draw.line(self.screen, self.GRID_COLOR, (x, 0), (x, self.HEIGHT))
+        for y in range(0, self.HEIGHT, self.GRID_SIZE):
+            pygame.draw.line(self.screen, self.GRID_COLOR, (0, y), (self.WIDTH, y))
 
-def draw_cells():
-    for x in range(GRID_WIDTH):
-        for y in range(GRID_HEIGHT):
-            if grid[x][y] == 1:
-                pygame.draw.rect(
-                    screen,
-                    CELL_COLOR,
-                    (x * GRID_SIZE, y * GRID_SIZE, GRID_SIZE, GRID_SIZE),
-                )
+    def draw_cells(self):
+        for x in range(self.GRID_WIDTH):
+            for y in range(self.GRID_HEIGHT):
+                if self.grid[x][y] == 1:
+                    pygame.draw.rect(
+                        self.screen,
+                        self.CELL_COLOR,
+                        (
+                            x * self.GRID_SIZE,
+                            y * self.GRID_SIZE,
+                            self.GRID_SIZE,
+                            self.GRID_SIZE,
+                        ),
+                    )
 
-
-def getNeighbourCount(x, y, board):
-    counter = 0
-    for let in [-1, 0, 1]:
-        for jet in [-1, 0, 1]:
-            if let == 0 and jet == 0:
-                continue
-            if x + let < 0 or x + let == GRID_WIDTH:
-                continue
-            if y + jet < 0 or y + jet == GRID_HEIGHT:
-                continue
-            counter += board[x + let][y + jet]
-    return counter
-
-
-clock = pygame.time.Clock()
-
-running = True
-isPaused = True
-while running:
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            running = False
-        if event.type == pygame.MOUSEBUTTONDOWN:
-            print(pygame.mouse.get_pos())
-            grid[pygame.mouse.get_pos()[0] // GRID_WIDTH][
-                pygame.mouse.get_pos()[1] // GRID_HEIGHT
-            ] = 1
-        if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
-            isPaused = not isPaused
-            if isPaused:
-                FPS = 30
-            else:
-                FPS = 5
-        keys = pygame.key.get_pressed()
-
-        if not isPaused:
-            if event.type == pygame.KEYDOWN and event.key == pygame.K_LEFT:
-                if FPS > 1:
-                    FPS -= 1
-                    print(FPS)
-            if event.type == pygame.KEYDOWN and event.key == pygame.K_RIGHT:
-                if FPS < 200:
-                    FPS += 1
-                    print(FPS)
-
-    newBoard = copy.deepcopy(grid)
-    if not isPaused:
-        for x in range(GRID_HEIGHT):
-            for y in range(GRID_WIDTH):
-                neighbour_count = getNeighbourCount(x, y, grid)
-                if grid[x][y] == 1 and (neighbour_count == 2 or neighbour_count == 3):
+    def get_neighbour_count(self, x, y, board):
+        counter = 0
+        for let in [-1, 0, 1]:
+            for jet in [-1, 0, 1]:
+                if let == 0 and jet == 0:
                     continue
-                if grid[x][y] == 0 and neighbour_count == 3:
-                    newBoard[x][y] = 1
+                if x + let < 0 or x + let == self.GRID_WIDTH:
                     continue
-                newBoard[x][y] = 0
+                if y + jet < 0 or y + jet == self.GRID_HEIGHT:
+                    continue
+                counter += board[x + let][y + jet]
+        return counter
 
-    grid = copy.deepcopy(newBoard)
-    screen.fill(BG_COLOR)
-    draw_grid()
-    draw_cells()
-    pygame.display.flip()
-    clock.tick(FPS)
+    def run(self):
+        while self.running:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    self.running = False
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    print(pygame.mouse.get_pos())
+                    self.grid[pygame.mouse.get_pos()[0] // self.GRID_WIDTH][
+                        pygame.mouse.get_pos()[1] // self.GRID_HEIGHT
+                    ] = 1
+                if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
+                    self.isPaused = not self.isPaused
+                    if self.isPaused:
+                        self.FPS = 30
+                    else:
+                        self.FPS = 5
+                if not self.isPaused:
+                    if event.type == pygame.KEYDOWN and event.key == pygame.K_LEFT:
+                        if self.FPS > 1:
+                            self.FPS -= 1
+                            print(self.FPS)
+                    if event.type == pygame.KEYDOWN and event.key == pygame.K_RIGHT:
+                        if self.FPS < 200:
+                            self.FPS += 1
+                            print(self.FPS)
 
-pygame.quit()
-sys.exit()
+            new_board = copy.deepcopy(self.grid)
+            if not self.isPaused:
+                for x in range(self.GRID_HEIGHT):
+                    for y in range(self.GRID_WIDTH):
+                        neighbour_count = self.get_neighbour_count(x, y, self.grid)
+                        if self.grid[x][y] == 1 and (
+                            neighbour_count == 2 or neighbour_count == 3
+                        ):
+                            continue
+                        if self.grid[x][y] == 0 and neighbour_count == 3:
+                            new_board[x][y] = 1
+                            continue
+                        new_board[x][y] = 0
+
+            self.grid = copy.deepcopy(new_board)
+            self.screen.fill(self.BG_COLOR)
+            self.draw_grid()
+            self.draw_cells()
+            pygame.display.flip()
+            self.clock.tick(self.FPS)
+
+        pygame.quit()
+        sys.exit()
+
+
+if __name__ == "__main__":
+    game = GameOfLife()
+    game.run()
