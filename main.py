@@ -14,7 +14,7 @@ class GameOfLife:
         self.GRID_HEIGHT = self.HEIGHT // self.GRID_SIZE
         self.GRID_COLOR = (255, 255, 255)
         self.BG_COLOR = (0, 0, 0)
-        self.CELL_COLOR = (34, 139, 34)
+        self.CELL_COLOR = (0, 200, 0)
         self.FPS = 30
 
         self.screen = pygame.display.set_mode((self.WIDTH, self.HEIGHT))
@@ -69,9 +69,20 @@ class GameOfLife:
                     self.running = False
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     print(pygame.mouse.get_pos())
-                    self.grid[pygame.mouse.get_pos()[0] // self.GRID_SIZE][
-                        pygame.mouse.get_pos()[1] // self.GRID_SIZE
-                    ] = 1
+                    if (
+                        self.grid[pygame.mouse.get_pos()[0] // self.GRID_SIZE][
+                            pygame.mouse.get_pos()[1] // self.GRID_SIZE
+                        ]
+                        == 0
+                    ):
+                        self.grid[pygame.mouse.get_pos()[0] // self.GRID_SIZE][
+                            pygame.mouse.get_pos()[1] // self.GRID_SIZE
+                        ] = 1
+                    else:
+                        self.grid[pygame.mouse.get_pos()[0] // self.GRID_SIZE][
+                            pygame.mouse.get_pos()[1] // self.GRID_SIZE
+                        ] = 0
+
                 if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
                     self.isPaused = not self.isPaused
                     if self.isPaused:
@@ -112,7 +123,6 @@ class GameOfLife:
                             new_board[x][y] = 1
                             continue
                         new_board[x][y] = 0
-
             self.grid = copy.deepcopy(new_board)
             self.screen.fill(self.BG_COLOR)
             self.draw_grid()
