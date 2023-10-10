@@ -16,6 +16,7 @@ class GameOfLife:
         self.BG_COLOR = (0, 0, 0)
         self.CELL_COLOR = (0, 200, 0)
         self.FPS = 30
+        self.userFPS = 5
 
         self.screen = pygame.display.set_mode((self.WIDTH, self.HEIGHT))
         pygame.display.set_caption("Game of Life (Paused)")
@@ -86,10 +87,11 @@ class GameOfLife:
                 if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
                     self.isPaused = not self.isPaused
                     if self.isPaused:
+                        self.userFPS = self.FPS
                         self.FPS = 30
                         pygame.display.set_caption("Game of Life (Paused)")
                     else:
-                        self.FPS = 5
+                        self.FPS = self.userFPS
                         pygame.display.set_caption(
                             "Game of Life, Speed: " + str(self.FPS)
                         )
