@@ -61,16 +61,26 @@ while running:
             running = False
         if event.type == pygame.MOUSEBUTTONDOWN:
             print(pygame.mouse.get_pos())
-            grid[int(pygame.mouse.get_pos()[0] / GRID_WIDTH)][
-                int(pygame.mouse.get_pos()[1] / GRID_HEIGHT)
+            grid[pygame.mouse.get_pos()[0] // GRID_WIDTH][
+                pygame.mouse.get_pos()[1] // GRID_HEIGHT
             ] = 1
         if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
             isPaused = not isPaused
-            print("jdjd")
-        if isPaused:
-            FPS = 30
-        else:
-            FPS = 1
+            if isPaused:
+                FPS = 30
+            else:
+                FPS = 5
+        keys = pygame.key.get_pressed()
+
+        if not isPaused:
+            if event.type == pygame.KEYDOWN and event.key == pygame.K_LEFT:
+                if FPS > 1:
+                    FPS -= 1
+                    print(FPS)
+            if event.type == pygame.KEYDOWN and event.key == pygame.K_RIGHT:
+                if FPS < 200:
+                    FPS += 1
+                    print(FPS)
 
     newBoard = copy.deepcopy(grid)
     if not isPaused:
