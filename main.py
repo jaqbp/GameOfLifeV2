@@ -7,7 +7,7 @@ class GameOfLife:
     def __init__(self):
         pygame.init()
 
-        self.WIDTH, self.HEIGHT = 400, 400
+        self.WIDTH, self.HEIGHT = 600, 600
         self.GRID_SIZE = 20
         self.GRID_WIDTH = self.WIDTH // self.GRID_SIZE
         self.GRID_HEIGHT = self.HEIGHT // self.GRID_SIZE
@@ -68,8 +68,8 @@ class GameOfLife:
                     self.running = False
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     print(pygame.mouse.get_pos())
-                    self.grid[pygame.mouse.get_pos()[0] // self.GRID_WIDTH][
-                        pygame.mouse.get_pos()[1] // self.GRID_HEIGHT
+                    self.grid[pygame.mouse.get_pos()[0] // self.GRID_SIZE][
+                        pygame.mouse.get_pos()[1] // self.GRID_SIZE
                     ] = 1
                 if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
                     self.isPaused = not self.isPaused
