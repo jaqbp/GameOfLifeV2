@@ -18,7 +18,7 @@ class GameOfLife:
         self.FPS = 30
 
         self.screen = pygame.display.set_mode((self.WIDTH, self.HEIGHT))
-        pygame.display.set_caption("Game of Life")
+        pygame.display.set_caption("Game of Life (Paused)")
 
         self.grid = [
             [0 for _ in range(self.GRID_WIDTH)] for _ in range(self.GRID_HEIGHT)
@@ -87,8 +87,12 @@ class GameOfLife:
                     self.isPaused = not self.isPaused
                     if self.isPaused:
                         self.FPS = 30
+                        pygame.display.set_caption("Game of Life (Paused)")
                     else:
                         self.FPS = 5
+                        pygame.display.set_caption(
+                            "Game of Life, Speed: " + str(self.FPS)
+                        )
 
                 if self.isPaused:
                     if event.type == pygame.KEYDOWN and event.key == pygame.K_r:
@@ -104,11 +108,15 @@ class GameOfLife:
                     if event.type == pygame.KEYDOWN and event.key == pygame.K_LEFT:
                         if self.FPS > 1:
                             self.FPS -= 1
-                            print(self.FPS)
+                            pygame.display.set_caption(
+                                "Game of Life, Speed: " + str(self.FPS)
+                            )
                     if event.type == pygame.KEYDOWN and event.key == pygame.K_RIGHT:
                         if self.FPS < 200:
                             self.FPS += 1
-                            print(self.FPS)
+                            pygame.display.set_caption(
+                                "Game of Life, Speed: " + str(self.FPS)
+                            )
 
             new_board = copy.deepcopy(self.grid)
             if not self.isPaused:
