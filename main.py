@@ -18,6 +18,7 @@ class GameOfLife:
         self.FPS = 30
         self.userFPS = 5
         self.numberOfIterations = 0
+        self.currNumberOfIterations = 0
 
         self.screen = pygame.display.set_mode((self.WIDTH, self.HEIGHT))
         pygame.display.set_caption("Game of Life (Paused)")
@@ -91,8 +92,9 @@ class GameOfLife:
                         self.userFPS = self.FPS
                         self.FPS = 30
                         pygame.display.set_caption("Game of Life (Paused)")
-                        self.numberOfIterations = 0
+                        self.currNumberOfIterations = self.numberOfIterations
                     else:
+                        self.numberOfIterations = self.currNumberOfIterations
                         self.FPS = self.userFPS
                         pygame.display.set_caption(
                             "Game of Life, Speed: "
@@ -107,6 +109,7 @@ class GameOfLife:
                             for y in range(self.GRID_WIDTH):
                                 self.grid[x][y] = int(random.uniform(0, 2))
                     if event.type == pygame.KEYDOWN and event.key == pygame.K_c:
+                        self.currNumberOfIterations = 0
                         for x in range(self.GRID_HEIGHT):
                             for y in range(self.GRID_WIDTH):
                                 self.grid[x][y] = 0
