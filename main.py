@@ -2,6 +2,7 @@ import pygame
 import sys
 import copy
 import random
+import time
 
 
 class GameOfLife:
@@ -9,12 +10,12 @@ class GameOfLife:
         pygame.init()
 
         self.WIDTH, self.HEIGHT = 600, 600
-        self.GRID_SIZE = 10
+        self.GRID_SIZE = 20
         self.GRID_WIDTH = self.WIDTH // self.GRID_SIZE
         self.GRID_HEIGHT = self.HEIGHT // self.GRID_SIZE
         self.GRID_COLOR = (255, 255, 255)
         self.BG_COLOR = (0, 0, 0)
-        self.CELL_COLOR = (0, 150, 0)
+        self.CELL_COLOR = (0, 200, 0)
         self.FPS = 30
         self.userFPS = 5
         self.numberOfIterations = 0
@@ -30,6 +31,7 @@ class GameOfLife:
         self.clock = pygame.time.Clock()
         self.running = True
         self.isPaused = True
+        self.show_instructions = True
 
     def draw_grid(self):
         for x in range(0, self.WIDTH, self.GRID_SIZE):
@@ -65,13 +67,56 @@ class GameOfLife:
                 counter += board[x + let][y + jet]
         return counter
 
-    def run(self):
+    def show_instruction_screen(self):
+        self.screen.fill(self.BG_COLOR)
+        font = pygame.font.Font(None, 25)
+        text = "Welcome to the Game of Life"
+        text2 = "Use your mouse to draw, press space to start the simulation"
+        text3 = "Use arrows to change the speed of the simulation"
+        text4 = "Press C to clear the board and R to generate randomly filled board"
+        text5 = "Press S to start"
+
+        rendered_text = font.render(text, True, (0, 200, 0))
+        text_rect = rendered_text.get_rect()
+        text_rect.center = (self.WIDTH // 2, self.HEIGHT // 2 - 200)
+        self.screen.blit(rendered_text, text_rect.topleft)
+
+        rendered_text2 = font.render(text2, True, (0, 200, 0))
+        text_rect2 = rendered_text2.get_rect()
+        text_rect2.center = (self.WIDTH // 2, self.HEIGHT // 2 - 150)
+        self.screen.blit(rendered_text2, text_rect2.topleft)
+
+        rendered_text3 = font.render(text3, True, (0, 200, 0))
+        text_rect3 = rendered_text3.get_rect()
+        text_rect3.center = (self.WIDTH // 2, self.HEIGHT // 2 - 100)
+        self.screen.blit(rendered_text3, text_rect3.topleft)
+
+        rendered_text4 = font.render(text4, True, (0, 200, 0))
+        text_rect4 = rendered_text4.get_rect()
+        text_rect4.center = (self.WIDTH // 2, self.HEIGHT // 2 - 50)
+        self.screen.blit(rendered_text4, text_rect4.topleft)
+
+        rendered_text5 = font.render(text5, True, (0, 200, 0))
+        text_rect5 = rendered_text5.get_rect()
+        text_rect5.center = (self.WIDTH // 2, self.HEIGHT // 2)
+        self.screen.blit(rendered_text5, text_rect5.topleft)
+        pygame.display.flip()
+
+        while self.show_instructions:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    self.show_instructions = False
+                    self.running = False
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_s:
+                        self.show_instructions = False
+
+    def game_loop(self):
         while self.running:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     self.running = False
                 if event.type == pygame.MOUSEBUTTONDOWN:
-                    print(pygame.mouse.get_pos())
                     if (
                         self.grid[pygame.mouse.get_pos()[0] // self.GRID_SIZE][
                             pygame.mouse.get_pos()[1] // self.GRID_SIZE
@@ -143,6 +188,7 @@ class GameOfLife:
                             new_board[x][y] = 1
                             continue
                         new_board[x][y] = 0
+
             self.grid = copy.deepcopy(new_board)
             self.screen.fill(self.BG_COLOR)
             self.draw_grid()
@@ -150,8 +196,14 @@ class GameOfLife:
             pygame.display.flip()
             self.clock.tick(self.FPS)
 
+    def run(self):
+        while self.running:
+            if self.show_instructions:
+                self.show_instruction_screen()
+            else:
+                self.game_loop()
+
         pygame.quit()
-        sys.exit()
 
 
 if __name__ == "__main__":
