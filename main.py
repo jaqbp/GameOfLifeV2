@@ -78,27 +78,27 @@ class GameOfLife:
 
         rendered_text = font.render(text, True, (0, 200, 0))
         text_rect = rendered_text.get_rect()
-        text_rect.center = (self.WIDTH // 2, self.HEIGHT // 2 - 200)
+        text_rect.center = (self.WIDTH // 2, self.HEIGHT // 2 - 100)
         self.screen.blit(rendered_text, text_rect.topleft)
 
         rendered_text2 = font.render(text2, True, (0, 200, 0))
         text_rect2 = rendered_text2.get_rect()
-        text_rect2.center = (self.WIDTH // 2, self.HEIGHT // 2 - 150)
+        text_rect2.center = (self.WIDTH // 2, self.HEIGHT // 2 - 50)
         self.screen.blit(rendered_text2, text_rect2.topleft)
 
         rendered_text3 = font.render(text3, True, (0, 200, 0))
         text_rect3 = rendered_text3.get_rect()
-        text_rect3.center = (self.WIDTH // 2, self.HEIGHT // 2 - 100)
+        text_rect3.center = (self.WIDTH // 2, self.HEIGHT // 2)
         self.screen.blit(rendered_text3, text_rect3.topleft)
 
         rendered_text4 = font.render(text4, True, (0, 200, 0))
         text_rect4 = rendered_text4.get_rect()
-        text_rect4.center = (self.WIDTH // 2, self.HEIGHT // 2 - 50)
+        text_rect4.center = (self.WIDTH // 2, self.HEIGHT // 2 + 50)
         self.screen.blit(rendered_text4, text_rect4.topleft)
 
         rendered_text5 = font.render(text5, True, (0, 200, 0))
         text_rect5 = rendered_text5.get_rect()
-        text_rect5.center = (self.WIDTH // 2, self.HEIGHT // 2)
+        text_rect5.center = (self.WIDTH // 2, self.HEIGHT // 2 + 100)
         self.screen.blit(rendered_text5, text_rect5.topleft)
         pygame.display.flip()
 
