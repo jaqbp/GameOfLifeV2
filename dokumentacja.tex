@@ -1,0 +1,42 @@
+\documentclass[12pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{polski}
+\usepackage{setspace}
+\usepackage{pdfpages}
+\usepackage[T1]{fontenc}
+\onehalfspacing
+
+\title{Projekt: Gra w życie (Game of Life) w Pythonie}
+\author{Piotr Skowroński, Jakub Pietrasik, Krzysztof Czuba}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\section{Skład zespołu oraz role w projekcie}
+   - Projektant i programista: Piotr Skowroński\\
+   - Programista i optymalizator: Krzysztof Czuba\\
+   - Programista i tester: Jakub Pietrasik
+
+\section{Opis tematyki projektu}
+   Projekt dotyczy implementacji znanej gry w życie, znaną jako "Game of Life". Gra ta jest automatem komórkowym stworzonym przez Johna Conwaya, w którym komórki na planszy ewoluują na podstawie pewnych reguł. Celem gry jest badanie zachowań i ewolucji populacji komórek na dwuwymiarowej planszy.
+
+\section{Opis realizacji i sposobu osiągnięcia celu projektowego}
+   - Inicjalizacja planszy i parametrów gry, takich jak rozmiar planszy, kolory, prędkość itp.\\
+   - Implementacja metody \texttt{draw\_grid}, która rysuje siatkę planszy.\\
+   - Implementacja metody \texttt{draw\_cells}, która rysuje komórki na planszy.\\
+   - Implementacja metody \texttt{get\_neighbour\_count}, która zlicza sąsiadujące komórki dla danej komórki.\\
+   - Wyświetlanie ekranu z instrukcjami dla użytkownika.
+   - Główna pętla gry z obsługą zdarzeń takich jak ruch myszy, pauza, zmiana prędkości itp.\\
+   - Logika gry, w której komórki ewoluują na podstawie reguł.
+
+\section{Bibliografia wraz z cytatowaniami w treści projektu}
+   - John H. Conway, "The Game of Life," Scientific American, 1970.\\
+   - Dokumentacja biblioteki Pygame: https://www.pygame.org/docs/
+
+\section{Temat projektu wybrany z listy tematów}
+   Projekt opiera się na wybranym temacie z listy związanym z implementacją gry w życie (temat 6) w języku Python przy użyciu biblioteki Pygame.
+
+\end{document}
+
